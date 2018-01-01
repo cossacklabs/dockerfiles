@@ -28,7 +28,7 @@ RUN wget -O ~/sdk-tools-linux.zip \
     rm ~/sdk-tools-linux.zip && \
     yes | ~/android-sdk/tools/bin/sdkmanager --licenses && \
     ~/android-sdk/tools/bin/sdkmanager --update && \
-    ~/android-sdk/tools/bin/sdkmanager 'build-tools;27.0.3' 'platforms;android-27' 'ndk-bundle'
+    ~/android-sdk/tools/bin/sdkmanager 'build-tools;27.0.3' 'platforms;android-27' 'ndk-bundle' 'emulator'
 
 ENV ANDROID_HOME=/home/user/android-sdk
 
