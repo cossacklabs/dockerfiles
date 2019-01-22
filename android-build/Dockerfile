@@ -27,19 +27,12 @@ RUN wget -O ~/sdk-tools-linux.zip \
     unzip ~/sdk-tools-linux.zip && \
     rm ~/sdk-tools-linux.zip && \
     yes | ~/android-sdk/tools/bin/sdkmanager --licenses && \
-    ~/android-sdk/tools/bin/sdkmanager --update && \
-    ~/android-sdk/tools/bin/sdkmanager 'build-tools;27.0.3' 'platforms;android-27' 'ndk-bundle' 'emulator'
+    yes | ~/android-sdk/tools/bin/sdkmanager --update && \
+    ~/android-sdk/tools/bin/sdkmanager 'build-tools;27.0.3' 'cmake;3.6.4111459' 'platforms;android-27' 'ndk-bundle' 'emulator' && \
+    cd ~/android-sdk/ndk-bundle/toolchains && \
+    ln -s aarch64-linux-android-4.9 mips64el-linux-android && \
+    ln -s arm-linux-androideabi-4.9 mipsel-linux-android
 
 ENV ANDROID_HOME=/home/user/android-sdk
-
-# CMake
-RUN wget -O ~/cmake.sh \
-        https://cmake.org/files/v3.10/cmake-3.10.1-Linux-x86_64.sh && \
-    chmod u+x ~/cmake.sh && \
-    mkdir ~/cmake && \
-    ~/cmake.sh --skip-license --prefix=/home/user/cmake && \
-    rm ~/cmake.sh
-
-ENV PATH=/home/user/cmake/bin:$PATH
 
 WORKDIR /projects
