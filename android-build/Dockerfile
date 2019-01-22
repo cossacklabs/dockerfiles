@@ -35,4 +35,15 @@ RUN wget -O ~/sdk-tools-linux.zip \
 
 ENV ANDROID_HOME=/home/user/android-sdk
 
+
+# CMake
+RUN wget -O ~/cmake.sh \
+        https://cmake.org/files/v3.10/cmake-3.10.1-Linux-x86_64.sh && \
+    chmod u+x ~/cmake.sh && \
+    mkdir ~/cmake && \
+    ~/cmake.sh --skip-license --prefix=/home/user/cmake && \
+    rm ~/cmake.sh
+
+ENV PATH=/home/user/cmake/bin:$PATH
+
 WORKDIR /projects
