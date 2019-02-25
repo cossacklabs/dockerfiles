@@ -6,6 +6,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       tar unzip \
       build-essential \
       clang gcc \
+      clang-format \
       gdb lldb elfutils strace \
       libssl-dev \
  && apt-get -y autoremove && apt-get -y clean \
