@@ -7,6 +7,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       build-essential \
       clang clang-7 gcc gcc-8 \
       clang-format clang-format-7 clang-tidy-7 \
+      libc++-7-dev libstdc++-8-dev \
       gdb lldb elfutils strace \
       libssl-dev \
  && apt-get -y autoremove && apt-get -y clean \
