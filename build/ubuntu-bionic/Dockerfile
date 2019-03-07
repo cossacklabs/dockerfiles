@@ -9,7 +9,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       clang-format clang-format-7 clang-tidy-7 \
       libc++-7-dev libstdc++-8-dev \
       gdb lldb elfutils strace \
-      libssl-dev \
+      libssl1.0-dev \
+      default-jdk \
+      nodejs npm \
  && apt-get -y autoremove && apt-get -y clean \
  && rm -rf /var/lib/apt/lists/*
 
