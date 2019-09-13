@@ -5,8 +5,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       git curl wget ca-certificates \
       tar unzip \
       build-essential \
-      clang clang-7 gcc gcc-8 \
-      clang-format clang-format-7 clang-tidy-7 \
+      clang clang-7 clang-8 gcc gcc-8 \
+      clang-format clang-format-7 clang-tidy-7 clang-format-8 clang-tidy-8 \
       libc++-7-dev libstdc++-8-dev \
       gdb lldb elfutils strace \
       libssl1.0-dev \
