@@ -1,49 +1,43 @@
 FROM ubuntu:16.04
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends sudo wget curl unzip git \
-        build-essential ninja-build default-jdk && \
+# System dependencies. Android SDK requires Java 8, it does not work with Java 11.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        sudo wget curl unzip git \
+        build-essential ninja-build openjdk-8-jdk && \
     apt-get -y autoremove && \
     apt-get -y clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Golang
+# Golang (see https://golang.org/dl/)
 RUN wget -O /go.tar.gz \
-        https://redirector.gvt1.com/edgedl/go/go1.9.2.linux-amd64.tar.gz && \
+        https://dl.google.com/go/go1.13.4.linux-amd64.tar.gz && \
     tar -C /usr/local -xzf /go.tar.gz && \
     rm /go.tar.gz
 ENV PATH=$PATH:/usr/local/go/bin
 
+# Regular user account
 RUN useradd --groups sudo --create-home --shell /bin/bash user && \
     echo "%sudo ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers && \
     mkdir /projects && chown user:user /projects
 USER user
 
-# Android SDK and NDK
+# Android SDK and NDK (see https://developer.android.com/studio/#downloads)
 RUN wget -O ~/sdk-tools-linux.zip \
-      https://dl.google.com/android/repository/sdk-tools-linux-3859397.zip && \
+      https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip && \
     mkdir ~/android-sdk && \
     cd ~/android-sdk && \
     unzip ~/sdk-tools-linux.zip && \
     rm ~/sdk-tools-linux.zip && \
     yes | ~/android-sdk/tools/bin/sdkmanager --licenses && \
-    yes | ~/android-sdk/tools/bin/sdkmanager --update && \
-    ~/android-sdk/tools/bin/sdkmanager 'build-tools;27.0.3' 'cmake;3.6.4111459' 'platforms;android-27' 'ndk-bundle' 'emulator' && \
-    cd ~/android-sdk/ndk-bundle/toolchains && \
-    ln -s aarch64-linux-android-4.9 mips64el-linux-android && \
-    ln -s arm-linux-androideabi-4.9 mipsel-linux-android
-
+    ~/android-sdk/tools/bin/sdkmanager \
+        'build-tools;28.0.3' \
+        'cmake;3.6.4111459' \
+        'platforms;android-28' \
+        'platform-tools' \
+        'ndk-bundle' \
+        'emulator' \
+        'system-images;android-24;default;armeabi-v7a'
 ENV ANDROID_HOME=/home/user/android-sdk
-
-
-# CMake
-RUN wget -O ~/cmake.sh \
-        https://cmake.org/files/v3.10/cmake-3.10.1-Linux-x86_64.sh && \
-    chmod u+x ~/cmake.sh && \
-    mkdir ~/cmake && \
-    ~/cmake.sh --skip-license --prefix=/home/user/cmake && \
-    rm ~/cmake.sh
-
-ENV PATH=/home/user/cmake/bin:$PATH
+ENV PATH=$PATH:$ANDROID_HOME/emulator:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools
 
 WORKDIR /projects
