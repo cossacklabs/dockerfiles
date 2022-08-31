@@ -25,14 +25,16 @@ RUN useradd --groups sudo --create-home --shell /bin/bash user && \
 USER user
 
 # Android SDK and NDK (see https://developer.android.com/studio/#downloads)
-RUN wget -O ~/sdk-tools-linux.zip \
-      https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip && \
+RUN wget -O ~/cmdline-tools-linux.zip \
+      https://dl.google.com/android/repository/commandlinetools-linux-8512546_latest.zip && \
+    echo "2ccbda4302db862a28ada25aa7425d99dce9462046003c1714b059b5c47970d8  /home/user/cmdline-tools-linux.zip" | sha256sum --check - && \
     mkdir ~/android-sdk && \
     cd ~/android-sdk && \
-    unzip ~/sdk-tools-linux.zip && \
-    rm ~/sdk-tools-linux.zip && \
-    yes | ~/android-sdk/tools/bin/sdkmanager --licenses && \
-    ~/android-sdk/tools/bin/sdkmanager \
+    unzip ~/cmdline-tools-linux.zip && \
+    rm ~/cmdline-tools-linux.zip && \
+    mv cmdline-tools latest && mkdir cmdline-tools && mv latest cmdline-tools && \
+    yes | ~/android-sdk/cmdline-tools/latest/bin/sdkmanager --licenses && \
+    ~/android-sdk/cmdline-tools/latest/bin/sdkmanager \
         'build-tools;28.0.3' \
         'cmake;3.6.4111459' \
         'platforms;android-28' \
@@ -41,6 +43,6 @@ RUN wget -O ~/sdk-tools-linux.zip \
         'emulator' \
         'system-images;android-24;default;armeabi-v7a'
 ENV ANDROID_HOME=/home/user/android-sdk
-ENV PATH=$PATH:$ANDROID_HOME/emulator:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools
+ENV PATH=$PATH:$ANDROID_HOME/emulator:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools
 
 WORKDIR /projects
