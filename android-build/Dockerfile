@@ -35,14 +35,11 @@ RUN wget -O ~/cmdline-tools-linux.zip \
     mv cmdline-tools latest && mkdir cmdline-tools && mv latest cmdline-tools && \
     yes | ~/android-sdk/cmdline-tools/latest/bin/sdkmanager --licenses && \
     ~/android-sdk/cmdline-tools/latest/bin/sdkmanager \
-        'build-tools;28.0.3' \
-        'cmake;3.6.4111459' \
-        'platforms;android-28' \
-        'platform-tools' \
-        'ndk-bundle' \
-        'emulator' \
-        'system-images;android-24;default;armeabi-v7a'
+        'build-tools;30.0.3' \
+        'cmake;3.22.1' \
+        'platforms;android-30' \
+        'ndk;25.0.8775105'
 ENV ANDROID_HOME=/home/user/android-sdk
-ENV PATH=$PATH:$ANDROID_HOME/emulator:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools
+ENV PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
 
 WORKDIR /projects
