@@ -1,9 +1,11 @@
 FROM ubuntu:22.04
 
 # System dependencies. Android SDK requires Java 8, it does not work with Java 11.
+# Gradle requires Java 11, it does not work with Java 8.
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        sudo wget curl unzip git \
-        build-essential ninja-build openjdk-8-jdk && \
+        sudo wget curl unzip git gpg coreutils \
+        build-essential ninja-build \
+        openjdk-8-jre openjdk-11-jdk && \
     apt-get -y autoremove && \
     apt-get -y clean && \
     rm -rf /var/lib/apt/lists/*
