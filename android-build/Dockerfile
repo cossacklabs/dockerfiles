@@ -12,7 +12,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Golang (see https://golang.org/dl/)
 RUN wget -O /go.tar.gz \
-        https://dl.google.com/go/go1.13.4.linux-amd64.tar.gz && \
+        https://dl.google.com/go/go1.19.linux-amd64.tar.gz && \
+    echo "464b6b66591f6cf055bc5df90a9750bf5fbc9d038722bb84a9d56a2bea974be6  /go.tar.gz" | sha256sum --check - && \
     tar -C /usr/local -xzf /go.tar.gz && \
     rm /go.tar.gz
 ENV PATH=$PATH:/usr/local/go/bin
