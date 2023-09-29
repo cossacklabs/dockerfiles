@@ -1,4 +1,4 @@
-FROM ubuntu:23.04
+FROM ubuntu:22.04
 
 # System dependencies. Android SDK requires Java 8, it does not work with Java 11.
 # Gradle requires Java 11, it does not work with Java 8.
@@ -37,8 +37,8 @@ RUN wget -O ~/cmdline-tools-linux.zip \
     ~/android-sdk/cmdline-tools/latest/bin/sdkmanager \
         'build-tools;34.0.0' \
         'cmake;3.22.1' \
-        'platforms;android-31' \
-        'ndk;26.0.10792818'
+        'platforms;android-33' \
+        'ndk;25.0.8775105'
 ENV ANDROID_HOME=/home/user/android-sdk
 ENV PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
 
