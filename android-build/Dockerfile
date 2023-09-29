@@ -5,7 +5,7 @@ FROM ubuntu:22.04
 RUN apt-get update && apt-get install -y --no-install-recommends \
         sudo wget curl unzip git gpg coreutils \
         build-essential ninja-build \
-        openjdk-8-jre openjdk-11-jdk && \
+        openjdk-17-jre openjdk-17-jdk && \
     apt-get -y autoremove && \
     apt-get -y clean && \
     rm -rf /var/lib/apt/lists/*
@@ -26,8 +26,8 @@ USER user
 
 # Android SDK and NDK (see https://developer.android.com/studio/#downloads)
 RUN wget -O ~/cmdline-tools-linux.zip \
-      https://dl.google.com/android/repository/commandlinetools-linux-8512546_latest.zip && \
-    echo "2ccbda4302db862a28ada25aa7425d99dce9462046003c1714b059b5c47970d8  /home/user/cmdline-tools-linux.zip" | sha256sum --check - && \
+      https://dl.google.com/android/repository/commandlinetools-linux-10406996_latest.zip && \
+    echo "8919e8752979db73d8321e9babe2caedcc393750817c1a5f56c128ec442fb540  /home/user/cmdline-tools-linux.zip" | sha256sum --check - && \
     mkdir ~/android-sdk && \
     cd ~/android-sdk && \
     unzip ~/cmdline-tools-linux.zip && \
@@ -35,9 +35,9 @@ RUN wget -O ~/cmdline-tools-linux.zip \
     mv cmdline-tools latest && mkdir cmdline-tools && mv latest cmdline-tools && \
     yes | ~/android-sdk/cmdline-tools/latest/bin/sdkmanager --licenses && \
     ~/android-sdk/cmdline-tools/latest/bin/sdkmanager \
-        'build-tools;30.0.3' \
+        'build-tools;34.0.0' \
         'cmake;3.22.1' \
-        'platforms;android-30' \
+        'platforms;android-33' \
         'ndk;25.0.8775105'
 ENV ANDROID_HOME=/home/user/android-sdk
 ENV PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
